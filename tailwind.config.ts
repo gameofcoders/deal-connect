@@ -73,6 +73,7 @@ export default {
         "sidebar-fg": "hsl(var(--sidebar-fg))",
         "sidebar-active": "hsl(var(--sidebar-active))",
         "sidebar-hover": "hsl(var(--sidebar-hover))",
+        selected: "hsl(var(--selected))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
