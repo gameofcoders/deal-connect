@@ -123,27 +123,27 @@ export default function DealQAPage() {
     <div className="flex h-screen overflow-hidden bg-background">
       {/* App sidebar */}
       <div className={cn(
-        "fixed inset-y-0 left-0 z-40 flex w-56 flex-col bg-navy text-navy-foreground transition-transform duration-200 lg:static lg:translate-x-0",
+        "fixed inset-y-0 left-0 z-40 flex w-44 flex-col bg-navy text-navy-foreground transition-transform duration-200 lg:static lg:translate-x-0",
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
-        <div className="flex items-center justify-between px-5 py-5">
-          <span className="text-xl font-bold tracking-tight text-navy-foreground">FUNDRE</span>
+        <div className="flex items-center justify-between px-4 py-5">
+          <span className="text-lg font-bold tracking-tight text-navy-foreground">FUNDRE</span>
           <button onClick={() => setSidebarOpen(false)} className="lg:hidden rounded p-1 text-navy-foreground/70 hover:text-navy-foreground">
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        <div className="mx-4 mb-4 rounded-lg bg-action px-3 py-2.5 text-center">
+        <div className="mx-3 mb-4 rounded-lg bg-action px-3 py-2.5 text-center">
           <p className="text-sm font-semibold text-action-foreground">Sponsor</p>
           <p className="text-xs text-action-foreground/70">Switch account</p>
         </div>
 
-        <nav className="flex-1 space-y-0.5 px-3">
+        <nav className="flex-1 space-y-0.5 px-2">
           {sidebarNav.map((item) => (
             <button
               key={item.label}
               className={cn(
-                "flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                "flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
                 "text-navy-foreground/70 hover:bg-sidebar-hover hover:text-navy-foreground",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action",
                 item.label === "Live deals" && "bg-sidebar-hover text-navy-foreground"
@@ -155,11 +155,11 @@ export default function DealQAPage() {
           ))}
         </nav>
 
-        <div className="space-y-0.5 px-3 pb-5">
-          <button className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-navy-foreground/70 hover:bg-sidebar-hover hover:text-navy-foreground">
+        <div className="space-y-0.5 px-2 pb-5">
+          <button className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium text-navy-foreground/70 hover:bg-sidebar-hover hover:text-navy-foreground">
             <Settings className="h-4 w-4" /> Account settings
           </button>
-          <button className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-navy-foreground/70 hover:bg-sidebar-hover hover:text-navy-foreground">
+          <button className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium text-navy-foreground/70 hover:bg-sidebar-hover hover:text-navy-foreground">
             <BookOpen className="h-4 w-4" /> User guide
           </button>
         </div>
@@ -173,7 +173,7 @@ export default function DealQAPage() {
       {/* Main content */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top bar */}
-        <header className="shrink-0 border-b border-border bg-card px-4 py-3 lg:px-6">
+        <header className="shrink-0 border-b border-border bg-card px-4 py-3">
           <div className="flex items-center gap-3">
             <button onClick={() => setSidebarOpen(true)} className="lg:hidden rounded p-1 text-muted-foreground hover:text-foreground">
               <Menu className="h-5 w-5" />
@@ -182,16 +182,16 @@ export default function DealQAPage() {
           </div>
         </header>
 
-        {/* Q&A content area */}
+        {/* Q&A content area — lender list + threads side by side, no gap */}
         <div className="flex flex-1 overflow-hidden">
-          {/* Lender sidebar (desktop) */}
-          <div className="hidden md:block">
+          {/* Lender sidebar */}
+          <div className="hidden md:block shrink-0">
             <LenderSidebar lenders={mockLenders} selectedId={selectedLender} onSelect={setSelectedLender} />
           </div>
 
-          {/* Thread area */}
-          <main className="flex-1 overflow-y-auto" role="main">
-            <div className="mx-auto max-w-4xl px-4 py-5 lg:px-6">
+          {/* Thread area — no max-width, fills remaining space */}
+          <main className="flex-1 overflow-y-auto bg-surface" role="main">
+            <div className="px-6 py-5">
               {/* Mobile lender selector */}
               <div className="mb-4 md:hidden">
                 <label htmlFor="lender-select" className="sr-only">Select lender</label>
