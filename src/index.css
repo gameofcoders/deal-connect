@@ -15,17 +15,17 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    /* Purple/indigo brand from screenshots */
-    --primary: 239 60% 55%;
+    /* Brand blue #3e6eee */
+    --primary: 221 83% 59%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 5% 96%;
+    --secondary: 233 47% 95%;
     --secondary-foreground: 222 47% 11%;
 
     --muted: 240 5% 96%;
     --muted-foreground: 215 16% 47%;
 
-    --accent: 240 5% 96%;
+    --accent: 233 47% 95%;
     --accent-foreground: 222 47% 11%;
 
     --destructive: 0 84% 60%;
@@ -33,26 +33,30 @@
 
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 239 60% 55%;
+    --ring: 221 83% 59%;
 
     --radius: 0.5rem;
 
-    /* Deal Q&A tokens matching screenshots */
-    --navy: 239 55% 50%;
+    /* Tab bar background #254cb4 */
+    --navy: 222 65% 42%;
     --navy-foreground: 0 0% 100%;
-    --action: 239 55% 50%;
+    /* Action/brand blue #3e6eee */
+    --action: 221 83% 59%;
     --action-foreground: 0 0% 100%;
+    /* Selected grey #eceefa */
+    --selected: 233 47% 95%;
     --pending: 38 92% 50%;
     --pending-foreground: 0 0% 100%;
-    --surface: 240 5% 96%;
+    --surface: 220 20% 97%;
     --surface-elevated: 0 0% 100%;
     --thread-line: 214 32% 91%;
     --timestamp: 215 16% 47%;
     --notification: 0 72% 58%;
-    --sidebar-bg: 239 55% 50%;
+    /* Sidebar uses tab bar dark blue */
+    --sidebar-bg: 222 65% 42%;
     --sidebar-fg: 0 0% 100%;
-    --sidebar-active: 239 60% 60%;
-    --sidebar-hover: 239 55% 45%;
+    --sidebar-active: 221 83% 59%;
+    --sidebar-hover: 222 65% 38%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -61,7 +65,7 @@
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 239 60% 55%;
+    --sidebar-ring: 221 83% 59%;
   }
 
   .dark {
@@ -71,7 +75,7 @@
     --card-foreground: 210 40% 98%;
     --popover: 222 47% 8%;
     --popover-foreground: 210 40% 98%;
-    --primary: 239 60% 60%;
+    --primary: 221 83% 59%;
     --primary-foreground: 0 0% 100%;
     --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 98%;
@@ -91,7 +95,7 @@
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 239 60% 55%;
+    --sidebar-ring: 221 83% 59%;
   }
 }
 
