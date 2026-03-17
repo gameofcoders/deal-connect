@@ -29,7 +29,7 @@ export function LenderSidebar({ lenders, selectedId, onSelect }: LenderSidebarPr
                   <span className={cn(
                     "ml-2 flex h-5 min-w-[20px] items-center justify-center rounded-full px-1 text-[11px] font-semibold",
                     selectedId === lender.id
-                      ? "bg-action-foreground/20 text-action-foreground"
+                      ? "bg-action/10 text-action"
                       : "bg-notification text-action-foreground"
                   )}>
                     {lender.notificationCount}
