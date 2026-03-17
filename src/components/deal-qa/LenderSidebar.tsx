@@ -9,11 +9,8 @@ interface LenderSidebarProps {
 
 export function LenderSidebar({ lenders, selectedId, onSelect }: LenderSidebarProps) {
   return (
-    <aside className="w-60 shrink-0 border-r border-border bg-card" role="navigation" aria-label="Lender list">
-      <div className="p-3">
-        <h2 className="px-2 pb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Lenders
-        </h2>
+    <aside className="w-52 shrink-0 border-r border-border bg-card h-full" role="navigation" aria-label="Lender list">
+      <div className="px-3 pt-4 pb-3">
         <ul className="space-y-0.5">
           {lenders.map((lender) => (
             <li key={lender.id}>

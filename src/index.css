@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
+    --background: 0 0% 100%;
     --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
@@ -15,16 +15,17 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    --primary: 217 91% 60%;
+    /* Purple/indigo brand from screenshots */
+    --primary: 239 60% 55%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96%;
+    --secondary: 240 5% 96%;
     --secondary-foreground: 222 47% 11%;
 
-    --muted: 210 40% 96%;
+    --muted: 240 5% 96%;
     --muted-foreground: 215 16% 47%;
 
-    --accent: 210 40% 96%;
+    --accent: 240 5% 96%;
     --accent-foreground: 222 47% 11%;
 
     --destructive: 0 84% 60%;
@@ -32,26 +33,26 @@
 
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 217 91% 60%;
+    --ring: 239 60% 55%;
 
     --radius: 0.5rem;
 
-    /* Deal Q&A specific tokens */
-    --navy: 222 47% 11%;
-    --navy-foreground: 210 40% 98%;
-    --action: 217 91% 60%;
+    /* Deal Q&A tokens matching screenshots */
+    --navy: 239 55% 50%;
+    --navy-foreground: 0 0% 100%;
+    --action: 239 55% 50%;
     --action-foreground: 0 0% 100%;
     --pending: 38 92% 50%;
     --pending-foreground: 0 0% 100%;
-    --surface: 210 40% 98%;
+    --surface: 240 5% 96%;
     --surface-elevated: 0 0% 100%;
     --thread-line: 214 32% 91%;
     --timestamp: 215 16% 47%;
-    --notification: 0 84% 60%;
-    --sidebar-bg: 222 47% 11%;
-    --sidebar-fg: 210 40% 98%;
-    --sidebar-active: 217 91% 60%;
-    --sidebar-hover: 222 47% 15%;
+    --notification: 0 72% 58%;
+    --sidebar-bg: 239 55% 50%;
+    --sidebar-fg: 0 0% 100%;
+    --sidebar-active: 239 60% 60%;
+    --sidebar-hover: 239 55% 45%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -60,7 +61,7 @@
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 239 60% 55%;
   }
 
   .dark {
@@ -70,7 +71,7 @@
     --card-foreground: 210 40% 98%;
     --popover: 222 47% 8%;
     --popover-foreground: 210 40% 98%;
-    --primary: 217 91% 60%;
+    --primary: 239 60% 60%;
     --primary-foreground: 0 0% 100%;
     --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 98%;
@@ -90,7 +91,7 @@
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 239 60% 55%;
   }
 }
 
