@@ -54,23 +54,8 @@ export function MessageBlock({
           </div>
         </div>
 
-        {/* Status + Actions */}
+        {/* Status badge (read-only) */}
         <div className="flex items-center gap-2">
-          {!isReadOnly && onTogglePending && (
-            <button
-              onClick={() => onTogglePending(message.id)}
-              className={cn(
-                "inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-medium transition-colors cursor-pointer",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action",
-                message.isPending
-                  ? "bg-pending/10 text-pending hover:bg-pending/20"
-                  : "bg-muted text-muted-foreground hover:bg-accent"
-              )}
-            >
-              <Clock className="h-3 w-3" />
-              {message.isPending ? "Pending" : "Resolved"}
-            </button>
-          )}
           {isReadOnly && message.isPending && (
             <span className="inline-flex items-center gap-1 rounded-md bg-pending/10 px-2 py-0.5 text-xs font-medium text-pending">
               <Clock className="h-3 w-3" />
