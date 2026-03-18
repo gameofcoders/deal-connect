@@ -24,7 +24,7 @@ export function ThreadCard({
 }: ThreadCardProps) {
   const [replyContent, setReplyContent] = useState("");
   const [showReplyBox, setShowReplyBox] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const handleSubmitReply = () => {
     if (replyContent.trim()) {
