@@ -121,6 +121,34 @@ export function MessageBlock({
           ))}
         </div>
       )}
+
+      {/* Action bar */}
+      {!isReadOnly && onTogglePending && !editing && (
+        <div className="mt-3 flex items-center gap-3 border-t border-border pt-2">
+          <button
+            onClick={() => onTogglePending(message.id)}
+            className={cn(
+              "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action",
+              message.isPending
+                ? "border border-pending/30 bg-pending/10 text-pending hover:bg-pending/20"
+                : "border border-border bg-muted text-muted-foreground hover:bg-accent hover:text-foreground"
+            )}
+          >
+            {message.isPending ? (
+              <>
+                <CheckCircle2 className="h-3.5 w-3.5" />
+                Mark as Resolved
+              </>
+            ) : (
+              <>
+                <Clock className="h-3.5 w-3.5" />
+                Mark as Pending
+              </>
+            )}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
