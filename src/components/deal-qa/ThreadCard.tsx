@@ -114,7 +114,10 @@ export function ThreadCard({
               {thread.replies.map((reply, index) => (
                 <div
                   key={reply.id}
-                  className="relative rounded-md border border-border bg-background p-4 ml-6 before:absolute before:left-[-13px] before:top-4 before:w-3 before:h-px before:bg-border after:absolute after:left-[-13px] after:top-0 after:bottom-0 after:w-px after:bg-border"
+                  className={cn(
+                    "relative rounded-md border border-border bg-background p-4 ml-6 before:absolute before:left-[-13px] before:top-4 before:w-3 before:h-px before:bg-border after:absolute after:left-[-13px] after:top-0 after:bottom-0 after:w-px after:bg-border",
+                    reply.isPending && "border-l-[3px] border-l-pending"
+                  )}
                   style={{
                     // Hide the vertical line extension below the last reply
                     ...(index === thread.replies.length - 1 ? { ['--after-bottom' as string]: '50%' } : {}),
