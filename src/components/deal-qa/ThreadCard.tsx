@@ -24,7 +24,7 @@ export function ThreadCard({
 }: ThreadCardProps) {
   const [replyContent, setReplyContent] = useState("");
   const [showReplyBox, setShowReplyBox] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const handleSubmitReply = () => {
     if (replyContent.trim()) {
@@ -93,6 +93,11 @@ export function ThreadCard({
         <div className="border-t border-border">
           {/* Question block */}
           <div className="bg-accent/30 px-5 py-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="inline-flex items-center rounded-full bg-action/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-action">
+                Question
+              </span>
+            </div>
             <MessageBlock
               message={thread.question}
               isQuestion
@@ -105,9 +110,21 @@ export function ThreadCard({
 
           {/* Replies */}
           {thread.replies.length > 0 && (
-            <div className="divide-y divide-border">
-              {thread.replies.map((reply) => (
-                <div key={reply.id} className="px-5 py-4 pl-10">
+            <div className="ml-5 mr-5 mb-4 mt-1 space-y-3">
+              {thread.replies.map((reply, index) => (
+                <div
+                  key={reply.id}
+                  className="relative rounded-md border border-border bg-background p-4 ml-6 before:absolute before:left-[-13px] before:top-4 before:w-3 before:h-px before:bg-border after:absolute after:left-[-13px] after:top-0 after:bottom-0 after:w-px after:bg-border"
+                  style={{
+                    // Hide the vertical line extension below the last reply
+                    ...(index === thread.replies.length - 1 ? { ['--after-bottom' as string]: '50%' } : {}),
+                  }}
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="inline-flex items-center rounded-full bg-accent px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      Reply
+                    </span>
+                  </div>
                   <MessageBlock
                     message={reply}
                     isOwnMessage={reply.author.id === currentUserId}
