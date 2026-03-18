@@ -56,38 +56,35 @@ export function MessageBlock({
 
         {/* Status + Actions */}
         <div className="flex items-center gap-2">
-          {message.isPending && (
+          {!isReadOnly && onTogglePending && (
+            <button
+              onClick={() => onTogglePending(message.id)}
+              className={cn(
+                "inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-medium transition-colors cursor-pointer",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action",
+                message.isPending
+                  ? "bg-pending/10 text-pending hover:bg-pending/20"
+                  : "bg-muted text-muted-foreground hover:bg-accent"
+              )}
+            >
+              <Clock className="h-3 w-3" />
+              {message.isPending ? "Pending" : "Resolved"}
+            </button>
+          )}
+          {isReadOnly && message.isPending && (
             <span className="inline-flex items-center gap-1 rounded-md bg-pending/10 px-2 py-0.5 text-xs font-medium text-pending">
               <Clock className="h-3 w-3" />
               Pending
             </span>
           )}
-          {!isReadOnly && (
-            <div className="flex items-center gap-1 opacity-0 transition-opacity duration-150 group-hover:opacity-100 focus-within:opacity-100">
-              {isOwnMessage && !editing && (
-                <button
-                  onClick={() => setEditing(true)}
-                  className="rounded p-1 text-muted-foreground hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
-                  aria-label="Edit message"
-                >
-                  <Edit2 className="h-3.5 w-3.5" />
-                </button>
-              )}
-              {onTogglePending && (
-                <button
-                  onClick={() => onTogglePending(message.id)}
-                  className={cn(
-                    "rounded px-2 py-0.5 text-xs font-medium transition-colors",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action",
-                    message.isPending
-                      ? "text-pending hover:bg-pending/10"
-                      : "text-muted-foreground hover:bg-secondary hover:text-foreground"
-                  )}
-                >
-                  {message.isPending ? "Mark resolved" : "Mark pending"}
-                </button>
-              )}
-            </div>
+          {!isReadOnly && isOwnMessage && !editing && (
+            <button
+              onClick={() => setEditing(true)}
+              className="rounded p-1 text-muted-foreground hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
+              aria-label="Edit message"
+            >
+              <Edit2 className="h-3.5 w-3.5" />
+            </button>
           )}
         </div>
       </div>
