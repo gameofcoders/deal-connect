@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Clock, Download, Edit2, Paperclip, Check, X } from "lucide-react";
+import { Clock, Download, Edit2, Paperclip, Check, X, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { QAMessage } from "@/types/deal-qa";
 import { format, parseISO } from "date-fns";
