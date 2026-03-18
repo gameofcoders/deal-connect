@@ -37,7 +37,7 @@ export function MessageBlock({
   const formattedDate = format(parseISO(message.timestamp), "d MMM yyyy, HH:mm");
 
   return (
-    <div className={cn("group animate-fade-in", isQuestion ? "" : "ml-6 border-l-2 border-thread-line pl-5")}>
+    <div className={cn("group animate-fade-in")}>
       <div className="flex items-start justify-between gap-4">
         {/* Author info */}
         <div className="flex items-center gap-3">
