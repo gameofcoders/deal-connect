@@ -93,6 +93,11 @@ export function ThreadCard({
         <div className="border-t border-border">
           {/* Question block */}
           <div className="bg-accent/30 px-5 py-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="inline-flex items-center rounded-full bg-action/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-action">
+                Question
+              </span>
+            </div>
             <MessageBlock
               message={thread.question}
               isQuestion
