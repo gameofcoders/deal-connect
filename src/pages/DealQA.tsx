@@ -32,7 +32,10 @@ export default function DealQAPage() {
 
   const currentThreads = useMemo(() => {
     const all = threads[selectedLender] || [];
-    if (filter === "pending") return all.filter((t) => t.isPending);
+    if (filter === "pending")
+      return all.filter(
+        (t) => t.question.isPending || t.replies.some((r) => r.isPending)
+      );
     return all;
   }, [threads, selectedLender, filter]);
 
