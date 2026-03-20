@@ -44,10 +44,7 @@ export function ThreadCard({
 
   return (
     <article
-      className={cn(
-        "rounded-lg border border-border bg-card animate-fade-in overflow-hidden",
-        thread.isPending && "border-l-[3px] border-l-pending"
-      )}
+      className="rounded-lg border border-border bg-card animate-fade-in overflow-hidden"
     >
       {/* Collapsed header — always visible, acts as toggle */}
       <button
