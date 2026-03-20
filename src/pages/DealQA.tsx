@@ -32,12 +32,15 @@ export default function DealQAPage() {
 
   const currentThreads = useMemo(() => {
     const all = threads[selectedLender] || [];
-    if (filter === "pending") return all.filter((t) => t.isPending);
+    if (filter === "pending")
+      return all.filter(
+        (t) => t.question.isPending || t.replies.some((r) => r.isPending)
+      );
     return all;
   }, [threads, selectedLender, filter]);
 
   const allThreads = threads[selectedLender] || [];
-  const pendingCount = allThreads.filter((t) => t.isPending).length;
+  const pendingCount = allThreads.filter((t) => t.question.isPending || t.replies.some((r) => r.isPending)).length;
 
   const totalNotifications = mockLenders.reduce((sum, l) => sum + l.notificationCount, 0);
 
