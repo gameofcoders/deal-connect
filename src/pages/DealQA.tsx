@@ -40,7 +40,7 @@ export default function DealQAPage() {
   }, [threads, selectedLender, filter]);
 
   const allThreads = threads[selectedLender] || [];
-  const pendingCount = allThreads.filter((t) => t.isPending).length;
+  const pendingCount = allThreads.filter((t) => t.question.isPending || t.replies.some((r) => r.isPending)).length;
 
   const totalNotifications = mockLenders.reduce((sum, l) => sum + l.notificationCount, 0);
 
