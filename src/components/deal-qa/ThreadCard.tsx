@@ -112,7 +112,7 @@ export function ThreadCard({
                 <div
                   key={reply.id}
                   className={cn(
-                    "relative rounded-md border border-border bg-background p-4 ml-6 before:absolute before:left-[-13px] before:top-4 before:w-3 before:h-px before:bg-border after:absolute after:left-[-13px] after:top-0 after:bottom-0 after:w-px after:bg-border",
+                    "relative rounded-md border border-border bg-background p-4 ml-6",
                     reply.isPending && "border-l-[3px] border-l-pending"
                   )}
                   style={{
