@@ -98,7 +98,7 @@ export function ThreadCard({
             <MessageBlock
               message={thread.question}
               isQuestion
-              isOwnMessage={thread.question.author.id === currentUserId}
+              isOwnMessage
               isReadOnly={isReadOnly}
               onTogglePending={onTogglePending}
               onEdit={onEdit}
@@ -127,7 +127,7 @@ export function ThreadCard({
                   </div>
                   <MessageBlock
                     message={reply}
-                    isOwnMessage={reply.author.id === currentUserId}
+                    isOwnMessage
                     isReadOnly={isReadOnly}
                     onTogglePending={onTogglePending}
                     onEdit={onEdit}
