@@ -63,7 +63,7 @@ export function MessageBlock({
               )}
             </div>
           </div>
-
+        </div>
         {/* Status badge (read-only) */}
         <div className="flex items-center gap-2">
           {isReadOnly && message.isPending && (
