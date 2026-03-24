@@ -54,7 +54,12 @@ export function MessageBlock({
               <span className="text-xs text-timestamp">{message.author.organization}</span>
             </div>
             <time className="text-xs text-timestamp">{formattedDate}</time>
-          </div>
+            {formattedEditedDate && (
+              <span className="ml-2 inline-flex items-center gap-1 text-xs italic text-muted-foreground" title={`Edited on ${formattedEditedDate}`}>
+                <Edit2 className="h-2.5 w-2.5" />
+                edited
+              </span>
+            )}
         </div>
 
         {/* Status badge (read-only) */}
