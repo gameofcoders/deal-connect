@@ -112,11 +112,11 @@ export default function DealQAPage() {
       ...prev,
       [selectedLender]: (prev[selectedLender] || []).map((t) => {
         if (t.question.id === messageId) {
-          return { ...t, question: { ...t.question, content: newContent } };
+          return { ...t, question: { ...t.question, content: newContent, editedAt: new Date().toISOString() } };
         }
         return {
           ...t,
-          replies: t.replies.map((r) => (r.id === messageId ? { ...r, content: newContent } : r)),
+          replies: t.replies.map((r) => (r.id === messageId ? { ...r, content: newContent, editedAt: new Date().toISOString() } : r)),
         };
       }),
     }));

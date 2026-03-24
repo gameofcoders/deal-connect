@@ -35,6 +35,9 @@ export function MessageBlock({
   };
 
   const formattedDate = format(parseISO(message.timestamp), "d MMM yyyy, HH:mm");
+  const formattedEditedDate = message.editedAt
+    ? format(parseISO(message.editedAt), "d MMM yyyy, HH:mm")
+    : null;
 
   return (
     <div className={cn("group animate-fade-in")}>
@@ -50,10 +53,17 @@ export function MessageBlock({
               <span className="text-xs text-muted-foreground">·</span>
               <span className="text-xs text-timestamp">{message.author.organization}</span>
             </div>
-            <time className="text-xs text-timestamp">{formattedDate}</time>
+            <div className="flex items-center">
+              <time className="text-xs text-timestamp">{formattedDate}</time>
+              {formattedEditedDate && (
+                <span className="ml-2 inline-flex items-center gap-1 text-xs italic text-muted-foreground" title={`Edited on ${formattedEditedDate}`}>
+                  <Edit2 className="h-2.5 w-2.5" />
+                  edited
+                </span>
+              )}
+            </div>
           </div>
         </div>
-
         {/* Status badge (read-only) */}
         <div className="flex items-center gap-2">
           {isReadOnly && message.isPending && (
