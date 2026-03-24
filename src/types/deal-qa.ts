@@ -20,6 +20,7 @@ export interface QAMessage {
   isPending: boolean;
   attachments: Attachment[];
   isEditing?: boolean;
+  editedAt?: string;
 }
 
 export interface QAThread {
