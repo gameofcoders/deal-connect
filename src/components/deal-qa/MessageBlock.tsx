@@ -35,6 +35,9 @@ export function MessageBlock({
   };
 
   const formattedDate = format(parseISO(message.timestamp), "d MMM yyyy, HH:mm");
+  const formattedEditedDate = message.editedAt
+    ? format(parseISO(message.editedAt), "d MMM yyyy, HH:mm")
+    : null;
 
   return (
     <div className={cn("group animate-fade-in")}>
