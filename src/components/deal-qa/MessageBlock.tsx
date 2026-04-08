@@ -1,8 +1,14 @@
-import { useState } from "react";
-import { Clock, Download, Edit2, Paperclip, Check, X, CheckCircle2 } from "lucide-react";
+import { useState, useRef } from "react";
+import { Clock, Download, Edit2, Paperclip, Check, X, CheckCircle2, Upload, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { QAMessage } from "@/types/deal-qa";
+import type { QAMessage, Attachment } from "@/types/deal-qa";
 import { format, parseISO } from "date-fns";
+
+function formatFileSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
 
 interface MessageBlockProps {
   message: QAMessage;
@@ -10,7 +16,7 @@ interface MessageBlockProps {
   isOwnMessage?: boolean;
   isReadOnly?: boolean;
   onTogglePending?: (id: string) => void;
-  onEdit?: (id: string, newContent: string) => void;
+  onEdit?: (id: string, newContent: string, removedAttachmentIds?: string[], newAttachments?: Attachment[]) => void;
 }
 
 export function MessageBlock({
@@ -23,6 +29,9 @@ export function MessageBlock({
 }: MessageBlockProps) {
   const [editing, setEditing] = useState(false);
   const [editContent, setEditContent] = useState(message.content);
+  const [removedAttachmentIds, setRemovedAttachmentIds] = useState<string[]>([]);
+  const [newFiles, setNewFiles] = useState<File[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSaveEdit = () => {
     onEdit?.(message.id, editContent);
