@@ -31,6 +31,15 @@ export function ThreadCard({
   const [replyContent, setReplyContent] = useState("");
   const [showReplyBox, setShowReplyBox] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
+  const [replyFiles, setReplyFiles] = useState<File[]>([]);
+  const replyFileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleReplyFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setReplyFiles((prev) => [...prev, ...Array.from(e.target.files!)]);
+    }
+    e.target.value = "";
+  };
 
   const handleSubmitReply = () => {
     if (replyContent.trim()) {
