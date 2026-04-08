@@ -45,6 +45,7 @@ export function ThreadCard({
     if (replyContent.trim()) {
       onReply?.(thread.id, replyContent.trim());
       setReplyContent("");
+      setReplyFiles([]);
       setShowReplyBox(false);
     }
   };
