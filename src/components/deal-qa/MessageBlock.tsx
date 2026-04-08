@@ -1,8 +1,14 @@
-import { useState } from "react";
-import { Clock, Download, Edit2, Paperclip, Check, X, CheckCircle2 } from "lucide-react";
+import { useState, useRef } from "react";
+import { Clock, Download, Edit2, Paperclip, Check, X, CheckCircle2, Upload, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { QAMessage } from "@/types/deal-qa";
+import type { QAMessage, Attachment } from "@/types/deal-qa";
 import { format, parseISO } from "date-fns";
+
+function formatFileSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
 
 interface MessageBlockProps {
   message: QAMessage;
@@ -10,7 +16,7 @@ interface MessageBlockProps {
   isOwnMessage?: boolean;
   isReadOnly?: boolean;
   onTogglePending?: (id: string) => void;
-  onEdit?: (id: string, newContent: string) => void;
+  onEdit?: (id: string, newContent: string, removedAttachmentIds?: string[], newAttachments?: Attachment[]) => void;
 }
 
 export function MessageBlock({
@@ -23,16 +29,40 @@ export function MessageBlock({
 }: MessageBlockProps) {
   const [editing, setEditing] = useState(false);
   const [editContent, setEditContent] = useState(message.content);
+  const [removedAttachmentIds, setRemovedAttachmentIds] = useState<string[]>([]);
+  const [newFiles, setNewFiles] = useState<File[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSaveEdit = () => {
-    onEdit?.(message.id, editContent);
+    const newAttachments: Attachment[] = newFiles.map((f, i) => ({
+      id: `att-new-${Date.now()}-${i}`,
+      name: f.name,
+      url: URL.createObjectURL(f),
+      size: formatFileSize(f.size),
+    }));
+    onEdit?.(message.id, editContent, removedAttachmentIds, newAttachments);
     setEditing(false);
+    setRemovedAttachmentIds([]);
+    setNewFiles([]);
   };
 
   const handleCancelEdit = () => {
     setEditContent(message.content);
+    setRemovedAttachmentIds([]);
+    setNewFiles([]);
     setEditing(false);
   };
+
+  const handleAddFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setNewFiles((prev) => [...prev, ...Array.from(e.target.files!)]);
+    }
+    e.target.value = "";
+  };
+
+  const remainingAttachments = message.attachments.filter(
+    (att) => !removedAttachmentIds.includes(att.id)
+  );
 
   const formattedDate = format(parseISO(message.timestamp), "d MMM yyyy, HH:mm");
   const formattedEditedDate = message.editedAt
@@ -94,19 +124,82 @@ export function MessageBlock({
             rows={3}
             autoFocus
           />
-          <div className="mt-2 flex gap-2">
+
+          {/* Existing attachments (removable) */}
+          {remainingAttachments.length > 0 && (
+            <div className="mt-2 flex flex-wrap gap-2">
+              {remainingAttachments.map((att) => (
+                <span
+                  key={att.id}
+                  className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1.5 text-xs font-medium text-foreground"
+                >
+                  <Paperclip className="h-3 w-3 text-muted-foreground" />
+                  {att.name}
+                  <span className="text-muted-foreground">({att.size})</span>
+                  <button
+                    onClick={() => setRemovedAttachmentIds((prev) => [...prev, att.id])}
+                    className="ml-0.5 rounded p-0.5 text-muted-foreground hover:text-destructive focus-visible:outline-none"
+                    aria-label={`Remove ${att.name}`}
+                  >
+                    <Trash2 className="h-3 w-3" />
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* New files to attach */}
+          {newFiles.length > 0 && (
+            <div className="mt-2 flex flex-wrap gap-2">
+              {newFiles.map((file, i) => (
+                <span
+                  key={i}
+                  className="inline-flex items-center gap-1.5 rounded-md border border-action/30 bg-action/5 px-2.5 py-1.5 text-xs font-medium text-foreground"
+                >
+                  <Paperclip className="h-3 w-3 text-action" />
+                  {file.name}
+                  <span className="text-muted-foreground">({formatFileSize(file.size)})</span>
+                  <button
+                    onClick={() => setNewFiles((prev) => prev.filter((_, idx) => idx !== i))}
+                    className="ml-0.5 rounded p-0.5 text-muted-foreground hover:text-destructive focus-visible:outline-none"
+                    aria-label={`Remove ${file.name}`}
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
+
+          <div className="mt-2 flex items-center justify-between">
             <button
-              onClick={handleSaveEdit}
-              className="inline-flex items-center gap-1 rounded-md bg-action px-3 py-1.5 text-xs font-medium text-action-foreground hover:bg-action/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
+              onClick={() => fileInputRef.current?.click()}
+              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
             >
-              <Check className="h-3 w-3" /> Save
+              <Upload className="h-3.5 w-3.5" />
+              Add file
             </button>
-            <button
-              onClick={handleCancelEdit}
-              className="inline-flex items-center gap-1 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
-            >
-              <X className="h-3 w-3" /> Cancel
-            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              className="hidden"
+              onChange={handleAddFiles}
+            />
+            <div className="flex gap-2">
+              <button
+                onClick={handleSaveEdit}
+                className="inline-flex items-center gap-1 rounded-md bg-action px-3 py-1.5 text-xs font-medium text-action-foreground hover:bg-action/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
+              >
+                <Check className="h-3 w-3" /> Save
+              </button>
+              <button
+                onClick={handleCancelEdit}
+                className="inline-flex items-center gap-1 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
+              >
+                <X className="h-3 w-3" /> Cancel
+              </button>
+            </div>
           </div>
         </div>
       ) : (
