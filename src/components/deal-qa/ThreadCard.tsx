@@ -166,17 +166,49 @@ export function ThreadCard({
                     rows={3}
                     autoFocus
                   />
+                  {/* Selected files preview */}
+                  {replyFiles.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                      {replyFiles.map((file, i) => (
+                        <span
+                          key={i}
+                          className="inline-flex items-center gap-1.5 rounded-md border border-action/30 bg-action/5 px-2.5 py-1.5 text-xs font-medium text-foreground"
+                        >
+                          <Paperclip className="h-3 w-3 text-action" />
+                          {file.name}
+                          <span className="text-muted-foreground">({formatFileSize(file.size)})</span>
+                          <button
+                            onClick={() => setReplyFiles((prev) => prev.filter((_, idx) => idx !== i))}
+                            className="ml-0.5 rounded p-0.5 text-muted-foreground hover:text-destructive focus-visible:outline-none"
+                            aria-label={`Remove ${file.name}`}
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                  )}
                   <div className="flex items-center justify-between">
-                    <button
-                      className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
-                      aria-label="Upload documents"
-                    >
-                      <Upload className="h-3.5 w-3.5" />
-                      Attach file
-                    </button>
+                    <div>
+                      <button
+                        onClick={() => replyFileInputRef.current?.click()}
+                        className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
+                        aria-label="Upload documents"
+                      >
+                        <Upload className="h-3.5 w-3.5" />
+                        Attach file
+                      </button>
+                      <input
+                        ref={replyFileInputRef}
+                        type="file"
+                        multiple
+                        className="hidden"
+                        onChange={handleReplyFileChange}
+                      />
+                    </div>
                     <div className="flex gap-2">
                       <button
-                        onClick={() => { setShowReplyBox(false); setReplyContent(""); }}
+                        onClick={() => { setShowReplyBox(false); setReplyContent(""); setReplyFiles([]); }}
                         className="rounded-md px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
                       >
                         Cancel
