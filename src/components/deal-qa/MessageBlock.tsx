@@ -124,19 +124,82 @@ export function MessageBlock({
             rows={3}
             autoFocus
           />
-          <div className="mt-2 flex gap-2">
+
+          {/* Existing attachments (removable) */}
+          {remainingAttachments.length > 0 && (
+            <div className="mt-2 flex flex-wrap gap-2">
+              {remainingAttachments.map((att) => (
+                <span
+                  key={att.id}
+                  className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1.5 text-xs font-medium text-foreground"
+                >
+                  <Paperclip className="h-3 w-3 text-muted-foreground" />
+                  {att.name}
+                  <span className="text-muted-foreground">({att.size})</span>
+                  <button
+                    onClick={() => setRemovedAttachmentIds((prev) => [...prev, att.id])}
+                    className="ml-0.5 rounded p-0.5 text-muted-foreground hover:text-destructive focus-visible:outline-none"
+                    aria-label={`Remove ${att.name}`}
+                  >
+                    <Trash2 className="h-3 w-3" />
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* New files to attach */}
+          {newFiles.length > 0 && (
+            <div className="mt-2 flex flex-wrap gap-2">
+              {newFiles.map((file, i) => (
+                <span
+                  key={i}
+                  className="inline-flex items-center gap-1.5 rounded-md border border-action/30 bg-action/5 px-2.5 py-1.5 text-xs font-medium text-foreground"
+                >
+                  <Paperclip className="h-3 w-3 text-action" />
+                  {file.name}
+                  <span className="text-muted-foreground">({formatFileSize(file.size)})</span>
+                  <button
+                    onClick={() => setNewFiles((prev) => prev.filter((_, idx) => idx !== i))}
+                    className="ml-0.5 rounded p-0.5 text-muted-foreground hover:text-destructive focus-visible:outline-none"
+                    aria-label={`Remove ${file.name}`}
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
+
+          <div className="mt-2 flex items-center justify-between">
             <button
-              onClick={handleSaveEdit}
-              className="inline-flex items-center gap-1 rounded-md bg-action px-3 py-1.5 text-xs font-medium text-action-foreground hover:bg-action/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
+              onClick={() => fileInputRef.current?.click()}
+              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
             >
-              <Check className="h-3 w-3" /> Save
+              <Upload className="h-3.5 w-3.5" />
+              Add file
             </button>
-            <button
-              onClick={handleCancelEdit}
-              className="inline-flex items-center gap-1 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
-            >
-              <X className="h-3 w-3" /> Cancel
-            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              className="hidden"
+              onChange={handleAddFiles}
+            />
+            <div className="flex gap-2">
+              <button
+                onClick={handleSaveEdit}
+                className="inline-flex items-center gap-1 rounded-md bg-action px-3 py-1.5 text-xs font-medium text-action-foreground hover:bg-action/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
+              >
+                <Check className="h-3 w-3" /> Save
+              </button>
+              <button
+                onClick={handleCancelEdit}
+                className="inline-flex items-center gap-1 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
+              >
+                <X className="h-3 w-3" /> Cancel
+              </button>
+            </div>
           </div>
         </div>
       ) : (
