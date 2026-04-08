@@ -34,14 +34,35 @@ export function MessageBlock({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSaveEdit = () => {
-    onEdit?.(message.id, editContent);
+    const newAttachments: Attachment[] = newFiles.map((f, i) => ({
+      id: `att-new-${Date.now()}-${i}`,
+      name: f.name,
+      url: URL.createObjectURL(f),
+      size: formatFileSize(f.size),
+    }));
+    onEdit?.(message.id, editContent, removedAttachmentIds, newAttachments);
     setEditing(false);
+    setRemovedAttachmentIds([]);
+    setNewFiles([]);
   };
 
   const handleCancelEdit = () => {
     setEditContent(message.content);
+    setRemovedAttachmentIds([]);
+    setNewFiles([]);
     setEditing(false);
   };
+
+  const handleAddFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setNewFiles((prev) => [...prev, ...Array.from(e.target.files!)]);
+    }
+    e.target.value = "";
+  };
+
+  const remainingAttachments = message.attachments.filter(
+    (att) => !removedAttachmentIds.includes(att.id)
+  );
 
   const formattedDate = format(parseISO(message.timestamp), "d MMM yyyy, HH:mm");
   const formattedEditedDate = message.editedAt
