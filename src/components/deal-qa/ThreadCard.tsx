@@ -1,9 +1,15 @@
-import { useState } from "react";
-import { MessageSquare, Send, Upload, ChevronDown, Clock } from "lucide-react";
+import { useState, useRef } from "react";
+import { MessageSquare, Send, Upload, ChevronDown, Clock, Paperclip, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { QAThread } from "@/types/deal-qa";
 import { MessageBlock } from "./MessageBlock";
 import { format, parseISO } from "date-fns";
+
+function formatFileSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
 
 interface ThreadCardProps {
   thread: QAThread;
