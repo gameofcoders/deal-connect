@@ -1,10 +1,10 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { Home, Settings, BookOpen, Search, Users, Briefcase, X, Menu } from "lucide-react";
 import { DealNavTabs } from "@/components/deal-qa/DealNavTabs";
 import { LenderSidebar } from "@/components/deal-qa/LenderSidebar";
 import { FilterBar } from "@/components/deal-qa/FilterBar";
 import { ThreadCard } from "@/components/deal-qa/ThreadCard";
-import { NewQuestionForm } from "@/components/deal-qa/NewQuestionForm";
+import { NewQuestionForm, type NewQuestionFormHandle } from "@/components/deal-qa/NewQuestionForm";
 import { EmptyState } from "@/components/deal-qa/EmptyState";
 import { LoadingState } from "@/components/deal-qa/LoadingState";
 import { mockLenders, mockThreadsByLender, currentUser } from "@/data/mock-qa";
