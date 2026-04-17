@@ -115,11 +115,6 @@ export function ThreadCard({
                   thread.question.isPending && "border-l-[3px] border-l-pending"
                 )}
               >
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="inline-flex items-center rounded-full bg-action/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-action">
-                    Question
-                  </span>
-                </div>
                 <MessageBlock
                   message={thread.question}
                   isQuestion
@@ -146,11 +141,6 @@ export function ThreadCard({
                       reply.isPending && "border-l-[3px] border-l-pending"
                     )}
                   >
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="inline-flex items-center rounded-full bg-muted px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                        Reply
-                      </span>
-                    </div>
                     <MessageBlock
                       message={reply}
                       isOwnMessage={isOwn}
