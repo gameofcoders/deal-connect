@@ -206,11 +206,11 @@ export function MessageBlock({
         <p className="mt-2 text-sm leading-relaxed text-foreground">{message.content}</p>
       )}
 
-      {/* Actions & Attachments row */}
-      {!editing && (message.attachments.length > 0 || (!isReadOnly && onTogglePending)) && (
+      {/* Actions & Attachments row — pending toggle only available for messages from the other side */}
+      {!editing && (message.attachments.length > 0 || (!isReadOnly && !isOwnMessage && onTogglePending)) && (
         <div className="mt-3 flex items-center justify-between gap-4 border-t border-border pt-2">
           <div className="shrink-0">
-            {!isReadOnly && onTogglePending && (
+            {!isReadOnly && !isOwnMessage && onTogglePending && (
               <button
                 onClick={() => onTogglePending(message.id)}
                 className={cn(
