@@ -105,51 +105,62 @@ export function ThreadCard({
       {isExpanded && (
         <div className="border-t border-border">
           {/* Question block */}
-          <div className={cn("bg-accent/30 px-5 py-4", thread.question.isPending && "border-l-[3px] border-l-pending")}>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center rounded-full bg-action/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-action">
-                Question
-              </span>
-            </div>
-            <MessageBlock
-              message={thread.question}
-              isQuestion
-              isOwnMessage
-              isReadOnly={isReadOnly}
-              onTogglePending={onTogglePending}
-              onEdit={onEdit}
-            />
-          </div>
-
-          {/* Replies */}
-          {thread.replies.length > 0 && (
-            <div className="ml-5 mr-5 mb-4 mt-1 space-y-3">
-              {thread.replies.map((reply, index) => (
-                <div
-                  key={reply.id}
-                  className={cn(
-                    "relative rounded-md border border-border bg-background p-4 ml-6",
-                    reply.isPending && "border-l-[3px] border-l-pending"
-                  )}
-                  style={{
-                    // Hide the vertical line extension below the last reply
-                    ...(index === thread.replies.length - 1 ? { ['--after-bottom' as string]: '50%' } : {}),
-                  }}
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="inline-flex items-center rounded-full bg-accent px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      Reply
-                    </span>
-                  </div>
-                  <MessageBlock
-                    message={reply}
-                    isOwnMessage
-                    isReadOnly={isReadOnly}
-                    onTogglePending={onTogglePending}
-                    onEdit={onEdit}
-                  />
+          {(() => {
+            const isOwn = thread.question.author.id === currentUserId;
+            return (
+              <div
+                className={cn(
+                  "px-5 py-4",
+                  isOwn ? "bg-action/5" : "bg-muted/60",
+                  thread.question.isPending && "border-l-[3px] border-l-pending"
+                )}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="inline-flex items-center rounded-full bg-action/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-action">
+                    Question
+                  </span>
                 </div>
-              ))}
+                <MessageBlock
+                  message={thread.question}
+                  isQuestion
+                  isOwnMessage={isOwn}
+                  isReadOnly={isReadOnly}
+                  onTogglePending={onTogglePending}
+                  onEdit={onEdit}
+                />
+              </div>
+            );
+          })()}
+
+          {/* Replies — same indentation as question, distinguished by background */}
+          {thread.replies.length > 0 && (
+            <div className="divide-y divide-border border-t border-border">
+              {thread.replies.map((reply) => {
+                const isOwn = reply.author.id === currentUserId;
+                return (
+                  <div
+                    key={reply.id}
+                    className={cn(
+                      "px-5 py-4",
+                      isOwn ? "bg-action/5" : "bg-card",
+                      reply.isPending && "border-l-[3px] border-l-pending"
+                    )}
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="inline-flex items-center rounded-full bg-muted px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        Reply
+                      </span>
+                    </div>
+                    <MessageBlock
+                      message={reply}
+                      isOwnMessage={isOwn}
+                      isReadOnly={isReadOnly}
+                      onTogglePending={onTogglePending}
+                      onEdit={onEdit}
+                    />
+                  </div>
+                );
+              })}
             </div>
           )}
 

@@ -1,10 +1,10 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { Home, Settings, BookOpen, Search, Users, Briefcase, X, Menu } from "lucide-react";
 import { DealNavTabs } from "@/components/deal-qa/DealNavTabs";
 import { LenderSidebar } from "@/components/deal-qa/LenderSidebar";
 import { FilterBar } from "@/components/deal-qa/FilterBar";
 import { ThreadCard } from "@/components/deal-qa/ThreadCard";
-import { NewQuestionForm } from "@/components/deal-qa/NewQuestionForm";
+import { NewQuestionForm, type NewQuestionFormHandle } from "@/components/deal-qa/NewQuestionForm";
 import { EmptyState } from "@/components/deal-qa/EmptyState";
 import { LoadingState } from "@/components/deal-qa/LoadingState";
 import { mockLenders, mockThreadsByLender, currentUser } from "@/data/mock-qa";
@@ -27,6 +27,8 @@ export default function DealQAPage() {
   const [threads, setThreads] = useState(mockThreadsByLender);
   const [isLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const newQuestionRef = useRef<NewQuestionFormHandle>(null);
+  const centeredNewQuestionRef = useRef<NewQuestionFormHandle>(null);
 
   const isReadOnly = dealStatus === "closed";
 
@@ -220,25 +222,35 @@ export default function DealQAPage() {
                   threadCount={allThreads.length}
                   pendingCount={pendingCount}
                 />
-                {isReadOnly && (
-                  <span className="rounded-md bg-secondary px-2.5 py-1 text-xs font-medium text-muted-foreground">
-                    Read-only (Deal closed)
-                  </span>
-                )}
-              </div>
-
-              {/* New question form */}
-              {!isReadOnly && (
-                <div className="mb-5">
-                  <NewQuestionForm onSubmit={handleNewQuestion} />
+                <div className="flex items-center gap-3">
+                  {isReadOnly && (
+                    <span className="rounded-md bg-secondary px-2.5 py-1 text-xs font-medium text-muted-foreground">
+                      Read-only (Deal closed)
+                    </span>
+                  )}
+                  {!isReadOnly && allThreads.length > 0 && (
+                    <NewQuestionForm ref={newQuestionRef} onSubmit={handleNewQuestion} variant="compact" />
+                  )}
                 </div>
-              )}
+              </div>
 
               {/* Threads */}
               {isLoading ? (
                 <LoadingState />
               ) : currentThreads.length === 0 ? (
-                <EmptyState lenderName={selectedLenderName} isPendingFilter={filter === "pending"} />
+                <EmptyState
+                  lenderName={selectedLenderName}
+                  isPendingFilter={filter === "pending"}
+                  action={
+                    !isReadOnly && allThreads.length === 0 ? (
+                      <NewQuestionForm
+                        ref={centeredNewQuestionRef}
+                        onSubmit={handleNewQuestion}
+                        variant="centered"
+                      />
+                    ) : undefined
+                  }
+                />
               ) : (
                 <div className="space-y-4">
                   {currentThreads.map((thread) => (
