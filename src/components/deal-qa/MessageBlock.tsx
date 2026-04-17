@@ -206,52 +206,53 @@ export function MessageBlock({
         <p className="mt-2 text-sm leading-relaxed text-foreground">{message.content}</p>
       )}
 
-      {/* Actions & Attachments row — pending toggle only available for messages from the other side */}
-      {!editing && (message.attachments.length > 0 || (!isReadOnly && !isOwnMessage && onTogglePending)) && (
-        <div className="mt-3 flex items-center justify-between gap-4 border-t border-border pt-2">
-          <div className="shrink-0">
-            {!isReadOnly && !isOwnMessage && onTogglePending && (
-              <button
-                onClick={() => onTogglePending(message.id)}
-                className={cn(
-                  "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action",
-                  message.isPending
-                    ? "border border-pending/30 bg-pending/10 text-pending hover:bg-pending/20"
-                    : "border border-border bg-muted text-muted-foreground hover:bg-accent hover:text-foreground"
-                )}
-              >
-                {message.isPending ? (
-                  <>
-                    <CheckCircle2 className="h-3.5 w-3.5" />
-                    Mark as Resolved
-                  </>
-                ) : (
-                  <>
-                    <Clock className="h-3.5 w-3.5" />
-                    Mark as Pending
-                  </>
-                )}
-              </button>
+      {/* Attachments — grouped directly with the message content */}
+      {!editing && message.attachments.length > 0 && (
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <span className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground">
+            <Paperclip className="h-3 w-3" />
+            {message.attachments.length} {message.attachments.length === 1 ? "attachment" : "attachments"}:
+          </span>
+          {message.attachments.map((att) => (
+            <a
+              key={att.id}
+              href={att.url}
+              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1 text-xs font-medium text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
+              download
+            >
+              {att.name}
+              <span className="text-muted-foreground">({att.size})</span>
+              <Download className="h-3 w-3 text-muted-foreground" />
+            </a>
+          ))}
+        </div>
+      )}
+
+      {/* Pending toggle — only for messages from the other side, visually anchored to the right */}
+      {!editing && !isReadOnly && !isOwnMessage && onTogglePending && (
+        <div className="mt-3 flex justify-end">
+          <button
+            onClick={() => onTogglePending(message.id)}
+            className={cn(
+              "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action",
+              message.isPending
+                ? "border border-pending/30 bg-pending/10 text-pending hover:bg-pending/20"
+                : "border border-border bg-muted text-muted-foreground hover:bg-accent hover:text-foreground"
             )}
-          </div>
-          {message.attachments.length > 0 && (
-            <div className="flex flex-wrap items-center justify-end gap-2">
-              {message.attachments.map((att) => (
-                <a
-                  key={att.id}
-                  href={att.url}
-                  className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
-                  download
-                >
-                  <Paperclip className="h-3 w-3 text-muted-foreground" />
-                  {att.name}
-                  <span className="text-muted-foreground">({att.size})</span>
-                  <Download className="h-3 w-3 text-muted-foreground" />
-                </a>
-              ))}
-            </div>
-          )}
+          >
+            {message.isPending ? (
+              <>
+                <CheckCircle2 className="h-3.5 w-3.5" />
+                Mark as Resolved
+              </>
+            ) : (
+              <>
+                <Clock className="h-3.5 w-3.5" />
+                Mark as Pending
+              </>
+            )}
+          </button>
         </div>
       )}
     </div>
