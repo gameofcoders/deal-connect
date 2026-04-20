@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { MessageSquare, Send, Upload, ChevronDown, Clock, Paperclip, X } from "lucide-react";
+import { MessageSquare, Send, Upload, ChevronDown, Paperclip, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { QAThread } from "@/types/deal-qa";
 import { MessageBlock } from "./MessageBlock";
