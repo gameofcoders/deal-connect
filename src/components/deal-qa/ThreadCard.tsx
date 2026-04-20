@@ -112,7 +112,8 @@ export function ThreadCard({
                 className={cn(
                   "relative px-5 py-4",
                   isOwn ? "bg-action/[0.06]" : "bg-card",
-                  thread.question.isPending && "bg-pending/5"
+                  thread.question.isPending &&
+                    "before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-pending"
                 )}
               >
                 <MessageBlock
@@ -132,13 +133,14 @@ export function ThreadCard({
             <div className="divide-y divide-border border-t border-border">
               {thread.replies.map((reply) => {
                 const isOwn = reply.author.id === currentUserId;
-                return (
+              return (
                   <div
                     key={reply.id}
                     className={cn(
                       "relative px-5 py-4",
                       isOwn ? "bg-action/[0.06]" : "bg-card",
-                      reply.isPending && "bg-pending/5"
+                      reply.isPending &&
+                        "before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-pending"
                     )}
                   >
                     <MessageBlock
