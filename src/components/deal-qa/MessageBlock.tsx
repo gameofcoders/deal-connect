@@ -94,7 +94,7 @@ export function MessageBlock({
               )}
               <span className="text-xs text-muted-foreground">·</span>
               <span className="text-xs text-timestamp">{message.author.organization}</span>
-              {message.isPending && (
+              {message.isPending && (isOwnMessage || isReadOnly) && (
                 <span className="inline-flex items-center gap-1 rounded-md bg-pending/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-pending">
                   <Clock className="h-2.5 w-2.5" />
                   Pending
@@ -112,29 +112,32 @@ export function MessageBlock({
             </div>
           </div>
         </div>
-        {/* Inline actions — always visible, small & compact, top-right */}
-        <div className="flex items-center gap-1">
+        {/* Inline actions — always visible, prominent, top-right */}
+        <div className="flex items-center gap-2">
           {!isReadOnly && !isOwnMessage && onTogglePending && (
             <button
               onClick={() => onTogglePending(message.id)}
               className={cn(
-                "inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium transition-colors",
+                "inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-xs font-semibold transition-all",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action",
                 message.isPending
-                  ? "border-pending/30 bg-pending/10 text-pending hover:bg-pending/20"
-                  : "border-border bg-card text-muted-foreground hover:border-action/40 hover:bg-accent hover:text-foreground"
+                  ? "border-pending bg-pending text-pending-foreground hover:bg-pending/90 shadow-sm"
+                  : "border-border bg-card text-foreground hover:border-pending hover:bg-pending/10 hover:text-pending"
               )}
               title={message.isPending ? "Mark as resolved" : "Mark as pending"}
               aria-label={message.isPending ? "Mark as resolved" : "Mark as pending"}
             >
               {message.isPending ? (
-                <CheckCircle2 className="h-3.5 w-3.5" />
+                <>
+                  <CheckCircle2 className="h-3.5 w-3.5" />
+                  <span>Resolve</span>
+                </>
               ) : (
-                <Clock className="h-3.5 w-3.5" />
+                <>
+                  <Clock className="h-3.5 w-3.5" />
+                  <span>Mark pending</span>
+                </>
               )}
-              <span className="hidden sm:inline">
-                {message.isPending ? "Resolve" : "Mark pending"}
-              </span>
             </button>
           )}
           {!isReadOnly && isOwnMessage && !editing && (
