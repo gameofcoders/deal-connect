@@ -112,17 +112,17 @@ export function MessageBlock({
             </div>
           </div>
         </div>
-        {/* Inline actions — small & compact, top-right */}
-        <div className="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100">
+        {/* Inline actions — always visible, small & compact, top-right */}
+        <div className="flex items-center gap-1">
           {!isReadOnly && !isOwnMessage && onTogglePending && (
             <button
               onClick={() => onTogglePending(message.id)}
               className={cn(
-                "inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium transition-colors",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:opacity-100",
+                "inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium transition-colors",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action",
                 message.isPending
-                  ? "text-pending hover:bg-pending/10"
-                  : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                  ? "border-pending/30 bg-pending/10 text-pending hover:bg-pending/20"
+                  : "border-border bg-card text-muted-foreground hover:border-action/40 hover:bg-accent hover:text-foreground"
               )}
               title={message.isPending ? "Mark as resolved" : "Mark as pending"}
               aria-label={message.isPending ? "Mark as resolved" : "Mark as pending"}
@@ -133,18 +133,19 @@ export function MessageBlock({
                 <Clock className="h-3.5 w-3.5" />
               )}
               <span className="hidden sm:inline">
-                {message.isPending ? "Resolve" : "Pending"}
+                {message.isPending ? "Resolve" : "Mark pending"}
               </span>
             </button>
           )}
           {!isReadOnly && isOwnMessage && !editing && (
             <button
               onClick={() => setEditing(true)}
-              className="rounded-md p-1 text-muted-foreground hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-action"
+              className="inline-flex items-center gap-1 rounded-md border border-border bg-card px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:border-action/40 hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
               aria-label="Edit message"
               title="Edit"
             >
               <Edit2 className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">Edit</span>
             </button>
           )}
         </div>
