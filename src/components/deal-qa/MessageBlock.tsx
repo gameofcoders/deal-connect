@@ -94,7 +94,7 @@ export function MessageBlock({
               )}
               <span className="text-xs text-muted-foreground">·</span>
               <span className="text-xs text-timestamp">{message.author.organization}</span>
-              {message.isPending && (
+              {message.isPending && (isOwnMessage || isReadOnly) && (
                 <span className="inline-flex items-center gap-1 rounded-md bg-pending/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-pending">
                   <Clock className="h-2.5 w-2.5" />
                   Pending
