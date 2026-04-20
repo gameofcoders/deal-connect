@@ -110,11 +110,9 @@ export function ThreadCard({
             return (
               <div
                 className={cn(
-                  "relative px-5 py-4 pl-6 border-l-4",
-                  isOwn
-                    ? "bg-action/5 border-l-action"
-                    : "bg-muted/40 border-l-muted-foreground/40",
-                  thread.question.isPending && "border-l-pending"
+                  "relative px-5 py-4",
+                  isOwn ? "bg-action/[0.06]" : "bg-card",
+                  thread.question.isPending && "bg-pending/5"
                 )}
               >
                 <MessageBlock
@@ -129,7 +127,7 @@ export function ThreadCard({
             );
           })()}
 
-          {/* Replies — same indentation as question, distinguished by background */}
+          {/* Replies — chat-style: background tint distinguishes sides */}
           {thread.replies.length > 0 && (
             <div className="divide-y divide-border border-t border-border">
               {thread.replies.map((reply) => {
@@ -138,11 +136,9 @@ export function ThreadCard({
                   <div
                     key={reply.id}
                     className={cn(
-                      "relative px-5 py-4 pl-6 border-l-4",
-                      isOwn
-                        ? "bg-action/5 border-l-action"
-                        : "bg-card border-l-muted-foreground/40",
-                      reply.isPending && "border-l-pending"
+                      "relative px-5 py-4",
+                      isOwn ? "bg-action/[0.06]" : "bg-card",
+                      reply.isPending && "bg-pending/5"
                     )}
                   >
                     <MessageBlock
@@ -160,7 +156,7 @@ export function ThreadCard({
 
           {/* Reply input */}
           {!isReadOnly && (
-            <div className="border-t border-border bg-accent/20 px-5 py-3 pl-10">
+            <div className="border-t border-border bg-muted/30 px-5 py-3">
               {showReplyBox ? (
                 <div className="space-y-2">
                   <textarea
