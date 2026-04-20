@@ -74,12 +74,24 @@ export function MessageBlock({
       <div className="flex items-start justify-between gap-4">
         {/* Author info */}
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-secondary text-sm font-semibold text-secondary-foreground">
+          <div
+            className={cn(
+              "flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-semibold",
+              isOwnMessage
+                ? "bg-action text-action-foreground"
+                : "bg-secondary text-secondary-foreground"
+            )}
+          >
             {message.author.name.split(" ").map(n => n[0]).join("")}
           </div>
           <div>
             <div className="flex items-center gap-2">
               <span className="text-sm font-semibold text-foreground">{message.author.name}</span>
+              {isOwnMessage && (
+                <span className="rounded-sm bg-action/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-action">
+                  You
+                </span>
+              )}
               <span className="text-xs text-muted-foreground">·</span>
               <span className="text-xs text-timestamp">{message.author.organization}</span>
             </div>
