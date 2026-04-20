@@ -82,12 +82,6 @@ export function ThreadCard({
             <h3 className="text-sm font-semibold text-foreground truncate">
               {thread.title}
             </h3>
-            {thread.isPending && (
-              <span className="inline-flex items-center gap-1 shrink-0 rounded-md bg-pending/10 px-2 py-0.5 text-xs font-medium text-pending">
-                <Clock className="h-3 w-3" />
-                Pending
-              </span>
-            )}
           </div>
           <div className="flex items-center gap-4 shrink-0 text-xs text-muted-foreground">
             <span className="hidden sm:inline">
