@@ -101,45 +101,48 @@ export function MessageBlock({
                 </span>
               )}
             </div>
-            <div className="flex items-center">
+            <div className="mt-0.5 flex items-center gap-2 flex-wrap">
               <time className="text-xs text-timestamp">{formattedDate}</time>
               {formattedEditedDate && (
-                <span className="ml-2 inline-flex items-center gap-1 text-xs italic text-muted-foreground" title={`Edited on ${formattedEditedDate}`}>
+                <span className="inline-flex items-center gap-1 text-xs italic text-muted-foreground" title={`Edited on ${formattedEditedDate}`}>
                   <Edit2 className="h-2.5 w-2.5" />
                   edited
                 </span>
               )}
+              {!isReadOnly && !isOwnMessage && onTogglePending && (
+                <>
+                  <span className="text-xs text-muted-foreground">·</span>
+                  <button
+                    onClick={() => onTogglePending(message.id)}
+                    className={cn(
+                      "inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-xs font-semibold transition-all",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action",
+                      message.isPending
+                        ? "border-pending bg-pending text-pending-foreground hover:bg-pending/90 shadow-sm"
+                        : "border-border bg-card text-foreground hover:border-pending hover:bg-pending/10 hover:text-pending"
+                    )}
+                    title={message.isPending ? "Mark as resolved" : "Mark as pending"}
+                    aria-label={message.isPending ? "Mark as resolved" : "Mark as pending"}
+                  >
+                    {message.isPending ? (
+                      <>
+                        <CheckCircle2 className="h-3 w-3" />
+                        <span>Resolve</span>
+                      </>
+                    ) : (
+                      <>
+                        <Clock className="h-3 w-3" />
+                        <span>Mark pending</span>
+                      </>
+                    )}
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
-        {/* Inline actions — always visible, prominent, top-right */}
+        {/* Inline actions — Edit only, top-right */}
         <div className="flex items-center gap-2">
-          {!isReadOnly && !isOwnMessage && onTogglePending && (
-            <button
-              onClick={() => onTogglePending(message.id)}
-              className={cn(
-                "inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-xs font-semibold transition-all",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action",
-                message.isPending
-                  ? "border-pending bg-pending text-pending-foreground hover:bg-pending/90 shadow-sm"
-                  : "border-border bg-card text-foreground hover:border-pending hover:bg-pending/10 hover:text-pending"
-              )}
-              title={message.isPending ? "Mark as resolved" : "Mark as pending"}
-              aria-label={message.isPending ? "Mark as resolved" : "Mark as pending"}
-            >
-              {message.isPending ? (
-                <>
-                  <CheckCircle2 className="h-3.5 w-3.5" />
-                  <span>Resolve</span>
-                </>
-              ) : (
-                <>
-                  <Clock className="h-3.5 w-3.5" />
-                  <span>Mark pending</span>
-                </>
-              )}
-            </button>
-          )}
           {!isReadOnly && isOwnMessage && !editing && (
             <button
               onClick={() => setEditing(true)}
