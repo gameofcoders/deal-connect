@@ -242,60 +242,22 @@ export function MessageBlock({
         <p className="mt-2 text-sm leading-relaxed text-foreground">{message.content}</p>
       )}
 
-      {/* Footer: attachments (left) + pending action (right) — single coherent row */}
-      {!editing && (message.attachments.length > 0 || (!isReadOnly && !isOwnMessage && onTogglePending)) && (
-        <div className="mt-3 flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
-          {/* Attachments — labeled group, left-aligned */}
-          {message.attachments.length > 0 ? (
-            <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-              <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-                {message.attachments.length === 1 ? "Attachment" : `${message.attachments.length} attachments`}
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {message.attachments.map((att) => (
-                  <a
-                    key={att.id}
-                    href={att.url}
-                    className="group/att inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1 text-xs font-medium text-foreground transition-colors hover:border-action/40 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
-                    download
-                  >
-                    <Paperclip className="h-3 w-3 text-muted-foreground" />
-                    <span className="truncate max-w-[200px]">{att.name}</span>
-                    <span className="text-muted-foreground">({att.size})</span>
-                    <Download className="h-3 w-3 text-muted-foreground opacity-0 transition-opacity group-hover/att:opacity-100" />
-                  </a>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className="flex-1" />
-          )}
-
-          {/* Pending toggle — only for messages from the other side */}
-          {!isReadOnly && !isOwnMessage && onTogglePending && (
-            <button
-              onClick={() => onTogglePending(message.id)}
-              className={cn(
-                "shrink-0 inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer self-end",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action",
-                message.isPending
-                  ? "border border-pending/30 bg-pending/10 text-pending hover:bg-pending/20"
-                  : "border border-border bg-background text-muted-foreground hover:bg-accent hover:text-foreground"
-              )}
+      {/* Attachments — clean inline row, no heavy divider */}
+      {!editing && message.attachments.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {message.attachments.map((att) => (
+            <a
+              key={att.id}
+              href={att.url}
+              className="group/att inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1 text-xs font-medium text-foreground transition-colors hover:border-action/40 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
+              download
             >
-              {message.isPending ? (
-                <>
-                  <CheckCircle2 className="h-3.5 w-3.5" />
-                  Mark as Resolved
-                </>
-              ) : (
-                <>
-                  <Clock className="h-3.5 w-3.5" />
-                  Mark as Pending
-                </>
-              )}
-            </button>
-          )}
+              <Paperclip className="h-3 w-3 text-muted-foreground" />
+              <span className="truncate max-w-[200px]">{att.name}</span>
+              <span className="text-muted-foreground">({att.size})</span>
+              <Download className="h-3 w-3 text-muted-foreground opacity-0 transition-opacity group-hover/att:opacity-100" />
+            </a>
+          ))}
         </div>
       )}
     </div>
