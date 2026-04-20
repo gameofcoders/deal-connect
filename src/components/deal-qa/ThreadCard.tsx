@@ -110,9 +110,11 @@ export function ThreadCard({
             return (
               <div
                 className={cn(
-                  "px-5 py-4",
-                  isOwn ? "bg-action/5" : "bg-muted/60",
-                  thread.question.isPending && "border-l-[3px] border-l-pending"
+                  "relative px-5 py-4 pl-6 border-l-4",
+                  isOwn
+                    ? "bg-action/5 border-l-action"
+                    : "bg-muted/40 border-l-muted-foreground/40",
+                  thread.question.isPending && "border-l-pending"
                 )}
               >
                 <MessageBlock
@@ -136,9 +138,11 @@ export function ThreadCard({
                   <div
                     key={reply.id}
                     className={cn(
-                      "px-5 py-4",
-                      isOwn ? "bg-action/5" : "bg-card",
-                      reply.isPending && "border-l-[3px] border-l-pending"
+                      "relative px-5 py-4 pl-6 border-l-4",
+                      isOwn
+                        ? "bg-action/5 border-l-action"
+                        : "bg-card border-l-muted-foreground/40",
+                      reply.isPending && "border-l-pending"
                     )}
                   >
                     <MessageBlock
